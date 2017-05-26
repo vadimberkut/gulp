@@ -16,10 +16,11 @@ module.exports = function(config, watch){
     var props = {
         entries: config.entries,
         extensions: ['.js', '.jsx'],
-        debug : true,
+        debug : config.debug,
         // debug : config.development,
         transform:  [
-            [babelify, {presets: ['es2015', 'react']}], 
+            // [babelify, {plugins: ['transform-es2015-spread'], presets: ['es2015', 'react']}], 
+            [babelify, {plugins: ['transform-object-rest-spread'], presets: ['es2015', 'react']}], 
         ]
     };
 
@@ -31,13 +32,31 @@ module.exports = function(config, watch){
     // bundler = bundler.transform(babelify, {presets: ['es2015']}); //works
     
     bundler.on('update', function(){
-        rebundle(bundler, config);
+        config.debug ? rebundleDev(bundler, config) : rebundleProd(bundler, config);
     });
 
-    return rebundle(bundler, config);
+    return config.debug ? rebundleDev(bundler, config) : rebundleProd(bundler, config);
 }
 
-function rebundle(bundler, config){
+function rebundleDev(bundler, config){
+    bundler
+    .bundle()
+    .on('error', mapError)
+    //Pass desired output filename to vinyl-source-stream
+    .pipe(source(config.destFile))
+    .pipe(buffer()) //uglify expects buffered vinyl file objects
+    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(sourcemaps.write('./maps'))
+    // .pipe(uglify())
+    .pipe(gulp.dest(config.destFolder))
+    .pipe(notify({
+        message: 'Generated file: <%= file.relative %>',
+    })) // Output the file being created
+    .pipe(duration('Javascript bundle time')) // Output time timing of the file creation
+    //.pipe(livereload()); // Reload the view in the browser
+    ;
+}
+function rebundleProd(bundler, config){
     bundler
     .bundle()
     .on('error', mapError)
@@ -45,9 +64,6 @@ function rebundle(bundler, config){
     .pipe(source(config.destFile))
     .pipe(buffer()) //uglify expects buffered vinyl file objects
     .pipe(uglify())
-    .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(sourcemaps.write('./maps'))
-    // Start piping stream to tasks!
     .pipe(gulp.dest(config.destFolder))
     .pipe(notify({
         message: 'Generated file: <%= file.relative %>',

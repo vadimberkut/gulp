@@ -1,11 +1,13 @@
 var config = {
     browserify: {
+        debug: true,
         entries: ['./src/index.js'],
         development: true,
         destFile: 'bundle.js',
         destFolder: './src/build'
     },
     watchify: {
+        debug: true,
         entries: ['./src/index.js'],
         development: true,
         destFile: 'bundle.js',
@@ -25,6 +27,7 @@ var config = {
     livereload: {
         html: './src/**/*.+(html|htm)',
         js: './src/build/**/*.js',
+        jsMaps: './src/build/**/*.map',
         css: './src/build/**/*.css'
     }
 };
@@ -42,7 +45,7 @@ var del = require('del');
 
 //watching only builded files
 gulp.task('livereload', function() {
-    var entries = [config.livereload.html,config.livereload.js,config.livereload.css];
+    var entries = [config.livereload.html,config.livereload.js,config.livereload.jsMaps,config.livereload.css];
     gulp.src(entries)
         .pipe(watch(entries))
         .pipe(connect.reload());
