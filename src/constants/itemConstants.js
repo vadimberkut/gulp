@@ -1,10 +1,11 @@
-// import keymirror from 'keymirror'
+import keymirror from 'keymirror'
 import keyrand from '../utils/keyrand.js'
 
-export default keyrand({
+export default keymirror({
+// export default keyrand({
 
     //Basic actions
-    LOADING: null,
+    ITEMS_LOADING: null,
 
     ALL_ITEMS_REQUEST: null,
     ALL_ITEMS_SUCCESS: null,

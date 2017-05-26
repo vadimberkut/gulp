@@ -15,32 +15,32 @@ export default class {
         return {
             all: ()=>{
                 return new Promise((resolve, reject)=>{
-                    resolve(list);
+                    setTimeout(()=>resolve(list),1000);
                 });
             },
             one: (id)=>{
                 return new Promise((resolve, reject)=>{
-                    resolve(list[0]);
+                    setTimeout(()=>resolve(list[0]),1000);
                 });
             },
             create: (item)=>{
                 return new Promise((resolve, reject)=>{
-                    resolve({...item, id: ID()});
+                    setTimeout(()=>resolve({...item, id: ID()}),1000);
                 });
             },
             update: (item)=>{
                 return new Promise((resolve, reject)=>{
-                    resolve(item);
+                    setTimeout(()=>resolve(item),1000);
                 });
             },
             delete: (id)=>{
                 return new Promise((resolve, reject)=>{
-                    resolve(id);
+                    setTimeout(()=>resolve(id),1000);
                 });
             },
             deleteAll: ()=>{
                 return new Promise((resolve, reject)=>{
-                    resolve();
+                    setTimeout(()=>resolve(),1000);
                 });
             },
         }

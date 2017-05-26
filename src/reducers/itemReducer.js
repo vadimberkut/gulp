@@ -11,7 +11,7 @@ export default function(state = initialState, action) {
     switch(action.type) {
 
         //BASIC
-        case actionTypes.LOADING:
+        case actionTypes.ITEMS_LOADING:
             return Object.assign({}, state, { loading: action.payload });
 
         case actionTypes.ALL_ITEMS_SUCCESS:

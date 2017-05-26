@@ -4,7 +4,7 @@ import API from '../utils/API.js'
 
 export function loading (loading){
     return {
-        type: actionTypes.LOADING,
+        type: actionTypes.ITEMS_LOADING,
         payload: loading
     }
 }

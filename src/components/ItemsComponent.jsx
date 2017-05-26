@@ -12,6 +12,7 @@ class ItemsComponent extends React.Component {
 
         };
 
+        this.onLoadAllClick = this.onLoadAllClick.bind(this);
         this.onCreateClick = this.onCreateClick.bind(this);
         this.onUpdate = this.onUpdate.bind(this);
         this.onShowClick = this.onShowClick.bind(this);
@@ -31,6 +32,10 @@ class ItemsComponent extends React.Component {
     //Unmounting
     // componentWillUnmount();
 
+    onLoadAllClick(e){
+        e.preventDefault();
+        this.props.itemActions.allItems();
+    }
     onCreateClick(e){
         e.preventDefault();
         this.props.itemActions.createItem({name: this.refs.name.value});
@@ -57,10 +62,12 @@ class ItemsComponent extends React.Component {
     render(){
         return (
             <div>
-                <h1>Create new item:</h1>
+                <h1>Items <img src="./images/spinner.svg" style={{height: "30px", display: this.props.loading ? "initial" : "none"}}/>:</h1>
+                <button onClick={this.onLoadAllClick}>Load all</button>
+                <h3>Create new item:</h3>
                 <input ref="name" type="text" />
                 <button onClick={this.onCreateClick}>Create</button>
-                <h1>Items:</h1>
+                <h3>Items:</h3>
                 {this.props.items.map((i)=>
                     <div key={i.id}>
                         <p>
