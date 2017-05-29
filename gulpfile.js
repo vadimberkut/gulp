@@ -62,13 +62,14 @@ gulp.task('build', [
     'browserify'
 ]);
 
-//Deploy
+//Clean deploy files
 gulp.task('clean', function(){
     return del([
         './public/**',
     ]);
 });
 
+//Prepare deploy - move files
 gulp.task('prepare-deploy', [
     'build'
 ], function(){
@@ -78,6 +79,7 @@ gulp.task('prepare-deploy', [
     gulp.src(['src/images/**/*']).pipe(gulp.dest('./public/images'));
 });
 
+//Deploy
 gulp.task('deploy', [
     'clean',
     'prepare-deploy',
