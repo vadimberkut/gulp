@@ -2,10 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Root from './Root.jsx';
 import store from './store.js';
-import './Preloader.js';
+import Preloader from './Preloader.js';
 
-// window.Preloader.show();
+window.Preloader = Preloader;
+
+window.Preloader.show();
 start();
+
 
 function start(){
     window.addEventListener("DOMContentLoaded", function(){
@@ -14,8 +17,7 @@ function start(){
             <Root store={store}/>, 
             document.getElementById('root'),
             function(){
-                // console.log('1');
-                //window.Preloader.hide();
+                window.Preloader.hide();
             }
         );
     }, false);

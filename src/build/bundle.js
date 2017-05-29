@@ -46884,6 +46884,10 @@ module.exports = warning;
 },{"_process":75}],301:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
@@ -46898,78 +46902,91 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+/*class Preloader extends React.Component {
+    constructor(props){
+        super(props);
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Preloader = function (_React$Component) {
-    _inherits(Preloader, _React$Component);
-
-    function Preloader(props) {
-        _classCallCheck(this, Preloader);
-
-        var _this = _possibleConstructorReturn(this, (Preloader.__proto__ || Object.getPrototypeOf(Preloader)).call(this, props));
-
-        _this.state = {
+        this.state = {
             display: 'none'
         };
 
-        _this.show = _this.show.bind(_this);
-        _this.hide = _this.hide.bind(_this);
-        _this.toggle = _this.toggle.bind(_this);
-        return _this;
+        this.show = this.show.bind(this);
+        this.hide = this.hide.bind(this);
+        this.toggle = this.toggle.bind(this);
     }
 
-    _createClass(Preloader, [{
+    show(cb) {
+        this.setState({display: 'flex'}, cb);
+    }
+    hide(cb) {
+        this.setState({display: 'none'}, cb);
+    }
+    toggle(cb) {
+        if(this.state.display == 'none')
+            this.show(cb);
+        else
+            this.hide(cb);
+    }
+
+    render(){
+        let style = {
+            display: this.state.display,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#f8f8f8',
+            position: 'fixed',
+            width: '100%',
+            height: '100%',
+            zIndex: '10000'
+        };
+
+        console.log(this.state.display);
+        let forReturn = (
+                <div style={style}>
+                    <img className="" src="./images/loading.svg"/>
+                </div>
+            ); 
+        return forReturn;
+    }
+}*/
+
+// if('document' in window){
+//     document.body.innerHTML += "<div id='appPreloader'></div>";
+//     window.Preloader = ReactDOM.render(<Preloader/>, document.getElementById('appPreloader'));
+// }
+
+
+//
+if ('document' in window) {
+    document.body.innerHTML += "<div id='appPreloader' class='app-preloader'><img class='' src='./images/loading.svg'/></div>";
+}
+
+var Preloader = function () {
+    function Preloader() {
+        _classCallCheck(this, Preloader);
+    }
+
+    _createClass(Preloader, null, [{
         key: 'show',
-        value: function show(cb) {
-            this.setState({ display: 'flex' }, cb);
+        value: function show() {
+            document.getElementById('appPreloader').style.display = 'flex';
         }
     }, {
         key: 'hide',
-        value: function hide(cb) {
-            this.setState({ display: 'none' }, cb);
+        value: function hide() {
+            document.getElementById('appPreloader').style.display = 'none';
         }
     }, {
         key: 'toggle',
-        value: function toggle(cb) {
-            if (this.state.display == 'none') this.show(cb);else this.hide(cb);
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var self = this;
-            setTimeout(function () {
-                return self.setState({ display: 'flex' });
-            }, 5000);
-            var style = {
-                display: this.state.display,
-                // display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: '#f8f8f8',
-                position: 'fixed',
-                width: '100%',
-                height: '100%',
-                zIndex: '10000'
-            };
-
-            var forReturn = _react2.default.createElement(
-                'div',
-                { style: style },
-                _react2.default.createElement('img', { src: './images/loading.svg' })
-            );
-            return forReturn;
+        value: function toggle() {
+            if (document.getElementById('appPreloader').style.display == 'none') Preloader.show();else Preloader.hide();
         }
     }]);
 
     return Preloader;
-}(_react2.default.Component);
+}();
 
-if ('document' in window) {
-    document.body.innerHTML += "<div id='appPreloader'></div>";
-    window.Preloader = _reactDom2.default.render(_react2.default.createElement(Preloader, null), document.getElementById('appPreloader'));
-}
+exports.default = Preloader;
 
 },{"react":275,"react-dom":82}],302:[function(require,module,exports){
 'use strict';
@@ -47526,8 +47543,9 @@ var App = function (_React$Component) {
     _createClass(App, [{
         key: 'render',
         value: function render() {
-            console.log(this.props);
-            var match = this.props.match;
+            var _props = this.props,
+                location = _props.location,
+                match = _props.match; //router prop
 
             return _react2.default.createElement(
                 'div',
@@ -47662,19 +47680,22 @@ var _store = require('./store.js');
 
 var _store2 = _interopRequireDefault(_store);
 
-require('./Preloader.js');
+var _Preloader = require('./Preloader.js');
+
+var _Preloader2 = _interopRequireDefault(_Preloader);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// window.Preloader.show();
+window.Preloader = _Preloader2.default;
+
+window.Preloader.show();
 start();
 
 function start() {
     window.addEventListener("DOMContentLoaded", function () {
         document.body.innerHTML += "<div id='root'></div>";
         _reactDom2.default.render(_react2.default.createElement(_Root2.default, { store: _store2.default }), document.getElementById('root'), function () {
-            // console.log('1');
-            //window.Preloader.hide();
+            window.Preloader.hide();
         });
     }, false);
 }

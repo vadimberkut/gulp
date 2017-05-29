@@ -16,8 +16,7 @@ class App extends React.Component {
     }
 
     render(){
-        console.log(this.props);
-        let { match } = this.props; 
+        let { location, match } = this.props; //router prop
         return (
             <div className="app-container">
                 {/*{this.props.children}*/}

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-class Preloader extends React.Component {
+/*class Preloader extends React.Component {
     constructor(props){
         super(props);
 
@@ -28,11 +28,8 @@ class Preloader extends React.Component {
     }
 
     render(){
-        var self = this;
-        setTimeout(()=>self.setState({display: 'flex'}), 5000);
         let style = {
             display: this.state.display,
-            // display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             backgroundColor: '#f8f8f8',
@@ -42,17 +39,42 @@ class Preloader extends React.Component {
             zIndex: '10000'
         };
 
+        console.log(this.state.display);
         let forReturn = (
                 <div style={style}>
-                    <img src="./images/loading.svg"/>
-                    {/*<img className="" src="./images/loading6.gif"/>*/}
+                    <img className="" src="./images/loading.svg"/>
                 </div>
             ); 
         return forReturn;
     }
+}*/
+
+// if('document' in window){
+//     document.body.innerHTML += "<div id='appPreloader'></div>";
+//     window.Preloader = ReactDOM.render(<Preloader/>, document.getElementById('appPreloader'));
+// }
+
+
+//
+if('document' in window){
+    document.body.innerHTML += "<div id='appPreloader' class='app-preloader'><img class='' src='./images/loading.svg'/></div>";
 }
 
-if('document' in window){
-    document.body.innerHTML += "<div id='appPreloader'></div>";
-    window.Preloader = ReactDOM.render(<Preloader/>, document.getElementById('appPreloader'));
+class Preloader {
+    constructor(){
+
+    }
+    static show(){
+        document.getElementById('appPreloader').style.display = 'flex';
+    }
+    static hide(){
+        document.getElementById('appPreloader').style.display = 'none';
+    }
+    static toggle(){
+        if(document.getElementById('appPreloader').style.display == 'none')
+            Preloader.show();
+        else
+            Preloader.hide();
+    }
 }
+export default Preloader;
